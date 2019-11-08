@@ -3,13 +3,70 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=h2, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
+  <title>中国地图</title>
 </head>
+<script src="./js/echarts.js"></script>
+<script src="./js/echarts-china.js"></script>
+<style>
+  .centerItem {
+    width: 856px;
+    height: 640px;
+    background-color: #003077;
+    margin: 110px auto 0 auto;
+  }
+</style>
 
 <body>
-  <h3>纯测试文件没事用</h3>
+  <div id="mapBox" class="centerItem"></div>
+  <script>
+    // 基于准备好的dom，初始化echarts实例
+    var mapBoxEchart = echarts.init(document.getElementById('mapBox'));
+
+    // 指定相关的配置项和数据
+    var mapBoxOption = {
+      series: [{
+        type: 'map',
+        mapType: 'china',
+        label: {
+          normal: {
+            show: true, //显示省份标签
+            textStyle: {
+              color: "yellow"
+            } //省份标签字体颜色
+          },
+          emphasis: { //对应的鼠标悬浮效果-字体颜色
+            show: false,
+            textStyle: {
+              color: "#fff",
+            }
+          }
+        },
+        aspectScale: 0.75, //这个参数用于 scale 地图的长宽比。最终的 aspect 的计算方式是
+        //：geoBoundingRect.width / geoBoundingRect.height * aspectScale
+        zoom: 1.2, //当前视角的缩放比例。
+        itemStyle: {
+          normal: { //默认情况 鼠标没有移入时候地图显示设置
+            borderWidth: .5, //区域边框宽度
+            borderColor: 'red', //区域边框颜色
+            areaColor: "blue", //区域颜色
+          },
+          emphasis: { //对应的鼠标悬浮效果-区域设置
+            borderWidth: 1.5, //鼠标移入省份边框1.5px
+            borderColor: '#4b0082',
+            areaColor: "#ffdead",
+          }
+        }
+      }]
+    };
+    // 使用制定的配置项和数据显示图表
+    mapBoxEchart.setOption(mapBoxOption);
+    // echart图表自适应
+    window.addEventListener("resize", function () {
+      mapBoxEchart.resize();
+    });
+  </script>
 </body>
 
 </html>
